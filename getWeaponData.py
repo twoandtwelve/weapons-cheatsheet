@@ -60,26 +60,7 @@ def parseWeapons(soup):
 
     return allWeapons
 
-
-def main():
-    url = 'https://calamitymod.wiki.gg/wiki/Weapons'
-    response = requests.get(url)
-    soup = BeautifulSoup(response.text, 'html.parser')
-
-    allWeapons = parseWeapons(soup)
-
-    # Make a list of all weapon types
-    weaponTypes = list(set([weaponType for weaponType, weaponStage in allWeapons.keys()]))
-
-    # Make a list of all weapon stages
-    weaponStages = list(set([weaponStage for weaponType, weaponStage in allWeapons.keys()]))
-
-    # in allWeapons, if there does not exist a key with the weaponType and weaponStage, add an empty list
-    for weaponType in weaponTypes:
-        for weaponStage in weaponStages:
-            allWeapons.setdefault((weaponType, weaponStage), [])
-
-
+def printWeapons(allWeapons):
     numWeapons = 0
     craftableWeapons = 0
     purchasableWeapons = 0
@@ -139,6 +120,28 @@ def main():
     print('Exhumed Weapons: ' + str(exhumedWeapons))
     print('Something Else: ' + str(somethingElse))
     print('Total Weapons: ' + str(numWeapons))
+
+#######################################################################################################
+def main():
+    url = 'https://calamitymod.wiki.gg/wiki/Weapons'
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+
+    allWeapons = parseWeapons(soup)
+
+    # Make a list of all weapon types
+    weaponTypes = list(set([weaponType for weaponType, weaponStage in allWeapons.keys()]))
+
+    # Make a list of all weapon stages
+    weaponStages = list(set([weaponStage for weaponType, weaponStage in allWeapons.keys()]))
+
+    # in allWeapons, if there does not exist a key with the weaponType and weaponStage, add an empty list
+    for weaponType in weaponTypes:
+        for weaponStage in weaponStages:
+            allWeapons.setdefault((weaponType, weaponStage), [])
+
+
+    printWeapons(allWeapons)
 
 
 if __name__ == "__main__":
